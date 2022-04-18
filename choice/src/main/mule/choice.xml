@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3ea4d9e2-a006-4063-af92-b105f259f23b" >
+		<http:listener-connection host="localhost" port="8084" />
+	</http:listener-config>
+	<flow name="choiceFlow" doc:id="1a3cc452-4011-4ed8-b506-45d250903f8f" >
+		<http:listener doc:name="Listener" doc:id="19bd3633-d071-4e79-9d24-24c697f67b6a" config-ref="HTTP_Listener_config" path="choice"/>
+		<set-variable value="#[attributes.queryParams.car]" doc:name="Set Variable" doc:id="869a9041-c900-4e93-b1b2-fb3fce04f81e" variableName="car"/>
+		<choice doc:name="Choice" doc:id="f2517da4-d1d0-4445-8b47-5f4e19145a1c" >
+			<when expression='#[vars.car=="swift"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="5af9a164-d4b4-4841-8bf6-669991bf4177" message='hey this is swift' />
+			</when>
+			<when expression='#[vars.car=="wagnor"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="5a0408f0-f95c-4a6a-a987-610a63d8464b" message="hey this is wagnor"/>
+			</when>
+			<when expression='#[vars.car=="Alto"]'>
+				<logger level="INFO" doc:name="Logger" doc:id="d9c445e7-4fca-4b0d-9089-7d57bb00f7e8" message="hey this is Alto"/>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="27aeb020-3a33-4d63-8836-bd1d33ba3b70" message='"This is default"'/>
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
